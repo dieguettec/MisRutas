@@ -8,6 +8,8 @@
 <script src="js/externo/jquery.mobile-1.4.5.js"></script>
 </head>
 <body>
+
+	<!-- La ventana principal -->
 	<div id="pgHome" data-role="page">
 		<div data-role="header">
 			<h1>Mis rutas</h1>
@@ -26,6 +28,71 @@
 						data-icon="home">Principal</a></li>
 					<li><a href="#pgMisRutas" data-icon="search">Mis rutas</a></li>
 					<li><a href="#pgMapa" data-icon="navigation">Mapa</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<!--   La ventana de mis rutas -->
+	<div id="pgMisRutas" data-role="page">
+		<div data-role="header">
+			<h1>Mis rutas</h1>
+		</div>
+		<div class="ui-content"></div>
+		<div id="pnRutas">
+			<ul data-role="listview" data-filter="true">
+				<li><a id="1" href="#">Ruta 1</a></li>
+				<li><a id="2" href="#">Ruta 2</a></li>
+				<li><a id="3" href="#">Ruta 3</a></li>
+				<li><a id="4" href="#">Ruta 4</a></li>
+			</ul>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#pgHome" data-icon="home">Principal</a></li>
+					<li><a href="#pgMisRutas"
+						class="ui-btn-active ui-state-persist" data-icon="search">Mis
+							rutas</a></li>
+					<li><a href="#pgMapa" data-icon="navigation">Mapa</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- La ventana de editar ruta -->
+	<div id="pgEditarRuta" data-role="page">
+		<div data-role="header" data-add-back-btn="true"
+			data-back-btn-text="Atr&aacute;s">
+			<h1>Editar Ruta</h1>
+		</div>
+		<div class="ui-content">
+			<input id="txtEditarTitulo" type="text"> <input
+				id="txtEditarFecha" type="text" disabled> <input
+				id="txtEditarColor" type="color"> <label
+				for="txtEditarVisualizar">Visualizar:</label> <select
+				id="txtEditarVisualizar" data-role="flipswitch">
+				<option value="off">Off</option>
+				<option value="on">On</option>
+			</select> <input id="btBorrar" type="button" value="Borrar">
+		</div>
+	</div>
+
+	<!--  La ventana de mapa -->
+	<div id="pgMapa" data-role="page">
+		<div data-role="header">
+			<h1>Mis rutas</h1>
+		</div>
+		<div class="ui-content">
+			<div id="pnMapa"></div>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#pgHome" data-icon="home">Principal</a></li>
+					<li><a href="#pgMisRutas" data-icon="search">Mis rutas</a></li>
+					<li><a href="#pgMapa" data-icon="navigation"
+						class="ui-btn-active ui-state-persist">Mapa</a></li>
 				</ul>
 			</div>
 		</div>
