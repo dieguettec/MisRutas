@@ -1,11 +1,3 @@
-var myOptions = {
-	zoom : 18,
-	center : new google.maps.LatLng(38.695015, -0.476049),
-	mapTypeId : google.maps.MapTypeId.ROADMAP
-};
-
-var map = new google.maps.Map($('#pnMapa')[0], myOptions);
-
 $(document).one(
 		'pageshow',
 		'#pgMapa',
@@ -30,3 +22,4 @@ $(document).one(
 			};
 			var map = new google.maps.Map($('#pnMapa')[0], myOptions);
 		});
+
