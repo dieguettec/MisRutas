@@ -2,6 +2,9 @@
 var rutas = new Rutas();
 
 $(document).on('pageinit', '#pgHome', function() {
+	
+	rutas.import();
+	
 	var vistaNuevaRuta = new NuevaRuta({collection: rutas, el: '#pgHome'});
 	});
 
