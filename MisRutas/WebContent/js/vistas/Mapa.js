@@ -1,7 +1,7 @@
 var Mapa = Backbone.View.extend({
 	initialize : function() {
 		var self = this;
-		// crear el mapa la primera vez que se muestra la página
+		// crear el mapa la primera vez que se muestra la pagina
 		$(document).one(
 				'pageshow',
 				'#' + this.$el.attr('id'),
@@ -58,7 +58,7 @@ var Mapa = Backbone.View.extend({
 		// pintar las rutas
 		var self = this;
 		this.collection.forEach(function(ruta) {
-			// sólo si son visibles
+			// solo si son visibles
 			if (ruta.get('visible') == 'on') {
 				var polyline = new google.maps.Polyline({
 					path : _.map(ruta.get('posiciones'), function(coords) {
@@ -69,8 +69,22 @@ var Mapa = Backbone.View.extend({
 					strokeOpacity : 1.0,
 					strokeWeight : 4
 				});
-				// guardar información sobre las rutas pintadas
+				// guardar informacion sobre las rutas pintadas
 				self.polylines.push(polyline);
+				
+				// ruta.get('fotos');
+				ruta.get('fotos').forEach(function(foto) { 
+					var marker = new google.maps.Marker({
+					      position: new google.maps.LatLng(foto.lat, foto.lng),
+					      map: self.map,
+					      title: foto.title
+					  });
+					
+					google.maps.event.addListener(marker, 'click', function() {
+						self.$('#popupPhoto').popup( "open", {transition: 'fade' });
+						// <a href="#popupPhoto" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-transition="fade">Photo</a>
+					  });
+				});
 			}
 		});
 	}

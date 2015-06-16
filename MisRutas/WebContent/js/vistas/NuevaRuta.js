@@ -9,12 +9,12 @@ var NuevaRuta = Backbone.View.extend({
 	empezarRuta : function() {
 		this.model = new Ruta();
 		console.log('empezarRuta(' + this.model.id + ')');
-		// recuperar título de la ruta
+		// recuperar titulo de la ruta
 		var titulo = this.$('#txtTitulo').val();
 		if (!titulo || titulo.length == 0)
 			titulo = "Default";
 		this.model.set("titulo", titulo);
-		// comenzar grabación de ruta (timers, ...)
+		// comenzar grabacion de ruta (timers, ...)
 		this.grabando = true;
 		this.contadorReloj = 0;
 		var self = this;
@@ -95,14 +95,12 @@ var NuevaRuta = Backbone.View.extend({
 							+ (minutos < 10 ? "0" : "") + minutos + ":"
 							+ (segundos < 10 ? "0" : "") + segundos);
 			this.$('#pnInfo').css('visibility', 'visible');
-			this.$('#btFoto').css('visibility', 'visible');
-			console.log('NuevaRuta.render: grabando true');
+			this.$('#btFoto').button('option','disabled', false);
 		} else {
 			// hide panel change - button text
 			this.$('#btGrabar').val('Empezar ruta').button('refresh');
 			this.$('#pnInfo').css('visibility', 'hidden');
-			this.$('#btFoto').button('option','disabled');
-			console.log('NuevaRuta.render: grabando false');
+			this.$('#btFoto').button('option','disabled', true);
 		}
 	},
 	events : {
@@ -118,6 +116,20 @@ var NuevaRuta = Backbone.View.extend({
 		}
 	},
 	grabarFoto : function() {
-		console.log('NuevaRuta.grabarFoto');
+		var posiciones = this.model.get('posiciones');
+		if(posiciones.length > 0) {
+			var pos = posiciones[posiciones.length-1];
+			
+			// add new photo to the route
+			var foto = {
+					lat : pos.lat,
+					lng : pos.lng,
+					title : 'title'
+				};
+			
+			var fotos = this.model.get('fotos');			
+			fotos.push(foto);
+			this.model.set('fotos', fotos);
+		}
 	}
 });
