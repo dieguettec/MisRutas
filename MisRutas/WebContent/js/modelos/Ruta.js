@@ -7,6 +7,8 @@ var Ruta = Backbone.Model.extend({
 			this.set('id', _.uniqueId());
 		if (!this.has("posiciones"))
 			this.set('posiciones', []);
+		if (!this.has("fotos"))
+			this.set('fotos', []);
 		if (!this.has("fecha"))
 			this.set('fecha', Date());
 	},

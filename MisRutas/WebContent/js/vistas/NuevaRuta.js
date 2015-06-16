@@ -95,10 +95,14 @@ var NuevaRuta = Backbone.View.extend({
 							+ (minutos < 10 ? "0" : "") + minutos + ":"
 							+ (segundos < 10 ? "0" : "") + segundos);
 			this.$('#pnInfo').css('visibility', 'visible');
+			this.$('#btFoto').css('visibility', 'visible');
+			console.log('NuevaRuta.render: grabando true');
 		} else {
 			// hide panel change - button text
 			this.$('#btGrabar').val('Empezar ruta').button('refresh');
 			this.$('#pnInfo').css('visibility', 'hidden');
+			this.$('#btFoto').button('option','disabled');
+			console.log('NuevaRuta.render: grabando false');
 		}
 	},
 	events : {
@@ -107,6 +111,13 @@ var NuevaRuta = Backbone.View.extend({
 				this.pararRuta();
 			else
 				this.empezarRuta();
+		},
+		'click #btFoto' : function() {
+			if (this.grabando)
+				this.grabarFoto();
 		}
+	},
+	grabarFoto : function() {
+		console.log('NuevaRuta.grabarFoto');
 	}
 });
