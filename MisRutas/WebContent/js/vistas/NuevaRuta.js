@@ -95,12 +95,12 @@ var NuevaRuta = Backbone.View.extend({
 							+ (minutos < 10 ? "0" : "") + minutos + ":"
 							+ (segundos < 10 ? "0" : "") + segundos);
 			this.$('#pnInfo').css('visibility', 'visible');
-			this.$('#btFoto').button('option','disabled', false);
+			this.$('#btFoto').button('option', 'disabled', false);
 		} else {
 			// hide panel change - button text
 			this.$('#btGrabar').val('Empezar ruta').button('refresh');
 			this.$('#pnInfo').css('visibility', 'hidden');
-			this.$('#btFoto').button('option','disabled', true);
+			this.$('#btFoto').button('option', 'disabled', true);
 		}
 	},
 	events : {
@@ -117,17 +117,20 @@ var NuevaRuta = Backbone.View.extend({
 	},
 	grabarFoto : function() {
 		var posiciones = this.model.get('posiciones');
-		if(posiciones.length > 0) {
-			var pos = posiciones[posiciones.length-1];
+		if (posiciones.length > 0) {
+			var pos = posiciones[posiciones.length - 1];
+			var uri = 'images/colorful-city.jpg';
+			if (posiciones.length % 2 == 0) 
+				uri = 'images/bieber.jpg';
 			
 			// add new photo to the route
 			var foto = {
-					lat : pos.lat,
-					lng : pos.lng,
-					title : 'title'
-				};
-			
-			var fotos = this.model.get('fotos');			
+				lat : pos.lat,
+				lng : pos.lng,
+				uri : uri
+			};
+
+			var fotos = this.model.get('fotos');
 			fotos.push(foto);
 			this.model.set('fotos', fotos);
 		}

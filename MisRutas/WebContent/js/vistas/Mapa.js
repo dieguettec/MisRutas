@@ -71,19 +71,20 @@ var Mapa = Backbone.View.extend({
 				});
 				// guardar informacion sobre las rutas pintadas
 				self.polylines.push(polyline);
-				
-				// ruta.get('fotos');
-				ruta.get('fotos').forEach(function(foto) { 
+
+				ruta.get('fotos').forEach(function(foto) {
 					var marker = new google.maps.Marker({
-					      position: new google.maps.LatLng(foto.lat, foto.lng),
-					      map: self.map,
-					      title: foto.title
-					  });
-					
+						position : new google.maps.LatLng(foto.lat, foto.lng),
+						map : self.map,
+						title : 'photo'
+					});
+
 					google.maps.event.addListener(marker, 'click', function() {
-						self.$('#popupPhoto').popup( "open", {transition: 'fade' });
-						// <a href="#popupPhoto" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-transition="fade">Photo</a>
-					  });
+						self.$('#poppphoto').attr("src", foto.uri);
+						self.$('#popupPhoto').popup("open", {
+							transition : 'fade'
+						});
+					});
 				});
 			}
 		});
