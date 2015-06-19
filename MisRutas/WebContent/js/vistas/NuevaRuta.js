@@ -116,23 +116,40 @@ var NuevaRuta = Backbone.View.extend({
 		}
 	},
 	grabarFoto : function() {
-		var posiciones = this.model.get('posiciones');
-		if (posiciones.length > 0) {
-			var pos = posiciones[posiciones.length - 1];
-			var uri = 'images/colorful-city.jpg';
-			if (posiciones.length % 2 == 0) 
-				uri = 'images/bieber.jpg';
-			
-			// add new photo to the route
-			var foto = {
-				lat : pos.lat,
-				lng : pos.lng,
-				uri : uri
-			};
+		captureImage();
 
-			var fotos = this.model.get('fotos');
-			fotos.push(foto);
-			this.model.set('fotos', fotos);
-		}
+	},
+
+	// Called when capture operation is finished
+	//
+	captureSuccess : function(mediaFiles) {
+
+		// add new photo to the route
+		var foto = {
+			lat : pos.lat,
+			lng : pos.lng,
+			uri : mediaFiles[i]
+		};
+
+		var fotos = this.model.get('fotos');
+		fotos.push(foto);
+		this.model.set('fotos', fotos);
+	},
+
+	// Called if something bad happens.
+	//
+	captureError : function(error) {
+		var msg = 'An error occurred during capture: ' + error.code;
+		navigator.notification.alert(msg, null, 'Uh oh!');
+	},
+
+	// A button will call this function
+	//
+	captureImage : function() {
+		// Launch device camera application,
+		// allowing user to capture up to 1 images
+		navigator.device.capture.captureImage(captureSuccess, captureError, {
+			limit : 1
+		});
 	}
 });
