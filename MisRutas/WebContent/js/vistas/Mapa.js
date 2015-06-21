@@ -73,6 +73,7 @@ var Mapa = Backbone.View.extend({
 				self.polylines.push(polyline);
 
 				ruta.get('fotos').forEach(function(foto) {
+					console.log('mapa.render(' + foto.uri + ')');
 					var marker = new google.maps.Marker({
 						position : new google.maps.LatLng(foto.lat, foto.lng),
 						map : self.map,

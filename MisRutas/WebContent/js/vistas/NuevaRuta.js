@@ -1,4 +1,5 @@
 var NuevaRuta = Backbone.View.extend({
+
 	initialize : function() {
 		this.grabando = false;
 		this.timerReloj = null;
@@ -6,6 +7,7 @@ var NuevaRuta = Backbone.View.extend({
 		this.contadorReloj = null;
 		this.render();
 	},
+
 	empezarRuta : function() {
 		this.model = new Ruta();
 		console.log('empezarRuta(' + this.model.id + ')');
@@ -28,6 +30,7 @@ var NuevaRuta = Backbone.View.extend({
 		// pintar vista
 		this.render();
 	},
+
 	pararRuta : function() {
 		console.log('pararRuta(' + this.model.id + ')');
 		this.grabando = false;
@@ -41,6 +44,7 @@ var NuevaRuta = Backbone.View.extend({
 		// pintar vista
 		this.render();
 	},
+
 	leerGps : function() {
 		// init
 		window.inc = typeof (inc) == 'undefined' ? 0.00005 : window.inc;
@@ -78,6 +82,7 @@ var NuevaRuta = Backbone.View.extend({
 		posiciones.push(pos);
 		this.model.set('posiciones', posiciones);
 	},
+
 	render : function() {
 		if (this.grabando) {
 			this.$('#txtTitulo').val(this.model.get('titulo')).textinput(
@@ -103,37 +108,27 @@ var NuevaRuta = Backbone.View.extend({
 			this.$('#btFoto').button('option', 'disabled', true);
 		}
 	},
-	events : {
-		'click #btGrabar' : function() {
-			if (this.grabando)
-				this.pararRuta();
-			else
-				this.empezarRuta();
-		},
-		'click #btFoto' : function() {
-			if (this.grabando)
-				this.grabarFoto();
-		}
-	},
-	grabarFoto : function() {
-		captureImage();
 
+	// A button will call this function
+	//
+	captureImage : function() {
+		// Launch device camera application,
+		// allowing user to capture up to 1 images
+		//navigator.device.capture.captureImage(this.captureSuccess, this.captureError, {	limit : 1 });
+		//navigator.camera.getPicture(this.captureSuccess, this.captureError, {	limit : 1 });
+		var self =  this;
+		navigator.device.capture.captureImage(
+			function(mediaFiles) { self.grabarMarker(mediaFiles[0].fullPath); },
+			this.captureError, {	limit : 1 });
 	},
 
 	// Called when capture operation is finished
 	//
 	captureSuccess : function(mediaFiles) {
+		console.log('NuevaRuta.captureSuccess(' + mediaFiles[0].fullPath + ')');
 
-		// add new photo to the route
-		var foto = {
-			lat : pos.lat,
-			lng : pos.lng,
-			uri : mediaFiles[i]
-		};
+		self.grabarMarker(mediaFiles[0].fullPath);
 
-		var fotos = this.model.get('fotos');
-		fotos.push(foto);
-		this.model.set('fotos', fotos);
 	},
 
 	// Called if something bad happens.
@@ -143,13 +138,34 @@ var NuevaRuta = Backbone.View.extend({
 		navigator.notification.alert(msg, null, 'Uh oh!');
 	},
 
-	// A button will call this function
-	//
-	captureImage : function() {
-		// Launch device camera application,
-		// allowing user to capture up to 1 images
-		navigator.device.capture.captureImage(captureSuccess, captureError, {
-			limit : 1
-		});
+	grabarMarker : function(uri) {
+		var posiciones = this.model.get('posiciones');
+		if (posiciones.length > 0) {
+			var pos = posiciones[posiciones.length - 1];
+
+			// add new photo to the route
+			var foto = {
+				lat : pos.lat,
+				lng : pos.lng,
+				uri : uri
+			};
+
+			var fotos = this.model.get('fotos');
+			fotos.push(foto);
+			this.model.set('fotos', fotos);
+			}
+	},
+
+	events : {
+		'click #btGrabar' : function() {
+			if (this.grabando)
+				this.pararRuta();
+			else
+				this.empezarRuta();
+		},
+		'click #btFoto' : function() {
+			if (this.grabando)
+				this.captureImage();
+		}
 	}
 });
